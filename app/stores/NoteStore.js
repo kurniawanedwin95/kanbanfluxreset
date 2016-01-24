@@ -37,10 +37,8 @@ class NoteStore extends BaseStore{
       id: uuid.v4(),
       task: "New Task"
     };
-    //const notes = this.notes;
-    //note.id = uuid.v4();
-    console.log(notes);
-    this.notes.concat(note);
+    console.log(this.notes);
+    this.notes.push(note);
     return note;
   }
 
