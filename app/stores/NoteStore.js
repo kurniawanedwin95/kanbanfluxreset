@@ -21,11 +21,11 @@ class NoteStore extends BaseStore{
         this.emitChange();
         break;
       case "UPDATE_NOTE":
-        this.update(updatedNote);
+        this.update(this.notes);
         this.emitChange();
         break;
       case "DELETE_NOTE":
-        this.delete(id);
+        this.delete(this.notes);
         this.emitChange();
         break;
     }
@@ -43,19 +43,17 @@ class NoteStore extends BaseStore{
   }
 
   update(updatedNote) {
-  /*  const notes = this.notes.map((note) => {
+    //not giving errors but not working either
+    this.notes.map((note) => {
       if(note.id === updatedNote.id) {
         return assign({}, note, updatedNote);
       }
       return note;
     });
-    this.setState({notes});*/
   }
 
   delete(id){
-    /*this.setState({
-      notes: this.notes.filter((note) => note.id !== id)
-    });*/
+    this.notes.splice(this.notes.id, 1);
   }
 
 

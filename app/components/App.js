@@ -19,7 +19,7 @@ class App extends React.Component {
   componentWillUnmount() {
     NoteStore.removeChangeListener(this.storeChanged);
   }
-  //setState works but produces: 
+  //setState works but produces:
   //Warning: setState(...): You passed an undefined or null state object; instead, use forceUpdate().
   storeChanged = (notes) => {
     this.forceUpdate(notes);
@@ -47,8 +47,8 @@ class App extends React.Component {
     NoteActions.create({task: 'New Task'});
   }
 
-  editNote(id, task) {
-    NoteActions.update({id, task});
+  editNote(notes) {
+    NoteActions.update(notes);
   }
 }
 
