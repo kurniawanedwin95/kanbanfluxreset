@@ -21,11 +21,11 @@ class NoteStore extends BaseStore{
         this.emitChange();
         break;
       case "UPDATE_NOTE":
-        this.update(this.notes);
+        this.update(action.id);
         this.emitChange();
         break;
       case "DELETE_NOTE":
-        this.delete(this.notes);
+        this.delete(action.id);
         this.emitChange();
         break;
     }
@@ -35,25 +35,32 @@ class NoteStore extends BaseStore{
     //create a note which contains id and task
     const note = {
       id: uuid.v4(),
-      task: "New Task"
+      task: `New Task ${uuid.v4()}`
     };
     console.log(this.notes);
     this.notes.push(note);
     return note;
   }
 
-  update(updatedNote) {
-    //not giving errors but not working either
+  update(id) {
+    //note is undefined, doesnt get into the if loop
+    console.log(id);
+    //here note is undefined
     this.notes.map((note) => {
-      if(note.id === updatedNote.id) {
-        return assign({}, note, updatedNote);
+      if(note.id === id) {
+        console.log(note);
+        console.log(note.task);
+        return assign({}, note, id);
       }
-      return note;
     });
   }
 
   delete(id){
-    this.notes.splice(this.notes.id, 1);
+    this.notes.map((note, index) => {
+      if(note.id === id) {
+        this.notes.splice(index, 1);
+      };
+    })
   }
 
 

@@ -47,8 +47,8 @@ class App extends React.Component {
     NoteActions.create({task: 'New Task'});
   }
 
-  editNote(notes) {
-    NoteActions.update(notes);
+  editNote(id) {
+    NoteActions.update(id);
   }
 }
 
