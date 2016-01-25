@@ -8,10 +8,11 @@ class NoteActions {
     });
   }
 
-  update(id) {
+  update(id, task) {
     AppDispatcher.dispatch({
       action: KanbanConstants.UPDATE_NOTE,
-      id: id
+      id: id,
+      task: task
     });
   }
 

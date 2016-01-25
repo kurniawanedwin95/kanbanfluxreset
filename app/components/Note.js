@@ -5,7 +5,6 @@ class Note extends React.Component {
     super(props);
     this.state ={
       editing: false,
-      editId: null
     };
   }
 
