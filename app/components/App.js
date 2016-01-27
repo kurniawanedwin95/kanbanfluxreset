@@ -1,55 +1,45 @@
 import React from 'react';
 
-import Notes from './Notes.js'
-import NoteActions from '../actions/NoteActions.js';
-import NoteStore from '../stores/NoteStore.js';
+import Lanes from './Lanes.js';
+import LaneActions from '../actions/LaneActions.js';
+import LaneStore from '../stores/LaneStore.js';
+//import NoteStore from '../stores/NoteStore.js';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(NoteActions);
-    //const notes = NoteStore.notes;
-    //this.state = NoteStore.getState();
+  constructor() {
+    super();
   }
 
   componentDidMount() {
-    NoteStore.addChangeListener(this.storeChanged);
+    LaneStore.addChangeListener(this.storeChanged);
+    //NoteStore.addChangeListener(this.storeChanged);
   }
 
   componentWillUnmount() {
-    NoteStore.removeChangeListener(this.storeChanged);
+    LaneStore.removeChangeListener(this.storeChanged);
+    //NoteStore.removeChangeListener(this.storeChanged);
   }
   //setState works but produces:
   //Warning: setState(...): You passed an undefined or null state object; instead, use forceUpdate().
-  storeChanged = (notes) => {
-    this.forceUpdate(notes);
+  storeChanged = (lanes) => {
+    this.forceUpdate(lanes);
   };
 
   render () {
-    const notes = NoteStore.notes;
-    console.log(NoteStore);
+    const lanes = LaneStore.lanes;
     return (
       <div>
-        <button className="add-note" onClick={this.addNote}>+</button>
-        <Notes
-          notes={notes}
-          onEdit={this.editNote}
-          onDelete={this.deleteNote}/>
+        <button className="add-lane" onClick={this.addLane}>+</button>
+        <Lanes
+          lanes={lanes}/>
       </div>
     );
   }
 
-  deleteNote(id) {
-    NoteActions.delete(id);
+  addLane() {
+    LaneActions.create();
   }
 
-  addNote() {
-    NoteActions.create({task: 'New Task'});
-  }
-
-  editNote(id, task) {
-    NoteActions.update(id, task);
-  }
 }
 
 export default App;

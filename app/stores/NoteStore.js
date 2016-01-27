@@ -1,7 +1,7 @@
 import uuid from 'node-uuid';
-import assign from 'object-assign';
 import BaseStore from './BaseStore.js';
 import NoteActions from '../actions/NoteActions.js';
+import LaneStore from '../stores/LaneStore.js';
 
 let CHANGE_EVENT = 'change';
 
@@ -14,17 +14,20 @@ class NoteStore extends BaseStore{
   }
 
   _registerToActions(action) {
-    console.log(action);
     switch(action.action) {
       case "CREATE_NOTE":
+        console.log(action);
         this.create();
         this.emitChange();
         break;
       case "UPDATE_NOTE":
-        this.update(action.id, action.task);
+        //this causes every lane should do the same shit, i think
+        console.log(action);
+        this.update(action.id.id, action.id.task);
         this.emitChange();
         break;
       case "DELETE_NOTE":
+        console.log(action);
         this.delete(action.id);
         this.emitChange();
         break;
@@ -33,11 +36,11 @@ class NoteStore extends BaseStore{
 
   create() {
     //create a note which contains id and task
+    //const lanes = LaneStore.lanes;
     const note = {
       id: uuid.v4(),
       task: "New Task"
     };
-    console.log(this.notes);
     this.notes.push(note);
     return note;
   }
