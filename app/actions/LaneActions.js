@@ -20,11 +20,11 @@ class LaneActions {
     });
   }
 
-  attachToLane(noteId, laneId) {
+  attachToLane(laneId, notes) {
     AppDispatcher.dispatch({
       action: KanbanConstants.ATTACH_TO_LANE,
-      //noteId: noteId,
-      //laneId: laneId
+      laneId: laneId,
+      notes: notes
     });
   }
 

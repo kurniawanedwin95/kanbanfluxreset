@@ -2,6 +2,8 @@ import React from 'react';
 import Notes from './Notes.js';
 import NoteActions from '../actions/NoteActions.js';
 import NoteStore from '../stores/NoteStore.js';
+import LaneActions from '../actions/LaneActions.js';
+import LaneStore from '../stores/LaneStore.js';
 
 class Lane extends React.Component {
   constructor(props) {
@@ -27,20 +29,23 @@ class Lane extends React.Component {
       <div {...props}>
         <div className="lane-header">
           <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
+            <button onClick={this.addNote.bind(this, lane.id)}>+</button>
           </div>
           <div className="lane-name">{lane.name}</div>
         </div>
         <Notes
           notes={notes}
-          onEdit={this.editNote}
-          onDelete={this.deleteNote}/>
+          onEdit={this.editNote.bind(this)}
+          onDelete={this.deleteNote.bind(this)}/>
       </div>
     );
   }
 
-  addNote() {
+  addNote(laneId) {
+    const lanes = LaneStore.lanes;
     NoteActions.create();
+    const notes = NoteStore.notes;
+    LaneActions.attachToLane(laneId, notes);
   }
 
   editNote(id, task) {

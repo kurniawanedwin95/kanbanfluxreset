@@ -6,8 +6,8 @@ import LaneStore from '../stores/LaneStore.js';
 //import NoteStore from '../stores/NoteStore.js';
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ class App extends React.Component {
     const lanes = LaneStore.lanes;
     return (
       <div>
-        <button className="add-lane" onClick={this.addLane}>+</button>
+        <button className="add-lane" onClick={this.addLane.bind(this, null)}>+</button>
         <Lanes
           lanes={lanes}/>
       </div>

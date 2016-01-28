@@ -46,7 +46,6 @@ class NoteStore extends BaseStore{
   }
 
   update(id, task) {
-    //assign isnt working yet
     console.log(id);
     this.notes.map((note) => {
       if(note.id === id) {

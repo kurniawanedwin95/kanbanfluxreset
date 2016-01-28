@@ -27,9 +27,9 @@ class LaneStore extends BaseStore {
         break;
       case "ATTACH_TO_LANE":
         console.log(action);
-        this.attachToLane(action.id, action.id.id);
+        this.attachToLane(action.laneId, action.notes);
         this.emitChange();
-
+        break;
     }
   }
 
@@ -44,14 +44,14 @@ class LaneStore extends BaseStore {
     return lane;
   }
 
-  attachToLane(laneId, noteId) {
+  attachToLane(laneId, notes) {
     const lanes = this.lanes.map(lane => {
       if(lane.id === laneId) {
-        if(lane.notes.indexOf(noteId) === -1) {
-          lane.notes.push(noteId);
+        if(lane.notes.indexOf(notes) === -1) {
+          lane.notes.push(notes);
         }
         else {
-          console.warn('Already attached note to lane', lanes);
+          console.warn('Already attached note to lane', lane);
         }
       }
       return lane;
