@@ -25,7 +25,7 @@ class LaneActions {
 
   attachToLane(laneId, notes) {
     AppDispatcher.dispatch({
-      action: KanbanConstants.ATTACH_TO_LANE,
+      action: KanbanConstants.ATTACH_TO_NEW_LANE,
       laneId: laneId,
       notes: notes
     });
