@@ -76,13 +76,7 @@ class LaneStore extends BaseStore {
   detachFromLane(laneId, noteId) {
     const lanes = this.lanes.map(lane => {
       if(lane.id === laneId) {
-        if(lane.notes.indexOf(noteId) || lane.notes.indexOf(noteId) === 0) {
-          lane.notes.splice(lane.notes.indexOf(noteId), 1);
-        }
-        else {
-          console.log(lane.notes.indexOf(noteId));
-          console.warn('Already detached note from lane', lane);
-        }
+        lane.notes.splice(lane.notes.indexOf(noteId), 1);
       }
       return lane;
     });
@@ -91,12 +85,7 @@ class LaneStore extends BaseStore {
   attachToNewLane(laneId, noteId) {
     const lanes = this.lanes.map(lane => {
       if(lane.id === laneId) {
-        if(lane.notes.indexOf(noteId) || lane.notes.indexOf(noteId) === 0) {
-          lane.notes.splice(lane.notes.indexOf(noteId), 0, noteId);
-        }
-        else {
-          console.warn('Already attached note to lane', lane);
-        }
+        lane.notes.splice(lane.notes.indexOf(noteId), 0, noteId);
       }
       return lane;
     });
