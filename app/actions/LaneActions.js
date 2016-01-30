@@ -1,3 +1,4 @@
+import uuid from 'node-uuid';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import KanbanConstants from '../constants/KanbanConstants.js';
 
@@ -5,6 +6,8 @@ class LaneActions {
   create() {
     AppDispatcher.dispatch({
       action: KanbanConstants.CREATE_LANE,
+      id: uuid.v4(),
+      name: "New Lane"
     });
   }
 

@@ -10,14 +10,14 @@ class NoteStore extends BaseStore{
     super();
 
     this.subscribe(() => this._registerToActions.bind(this));
-    this.notes = [];
+    this.lane = [];
   }
 
   _registerToActions(action) {
     switch(action.action) {
       case "CREATE_NOTE":
         console.log(action);
-        this.create();
+        this.create(action.id, action.task);
         this.emitChange();
         break;
       case "UPDATE_NOTE":
@@ -34,20 +34,20 @@ class NoteStore extends BaseStore{
     }
   }
 
-  create() {
+  create(id, task) {
     //create a note which contains id and task
     //const lanes = LaneStore.lanes;
     const note = {
-      id: uuid.v4(),
-      task: "New Task"
+      id: id,
+      task: task
     };
-    this.notes.push(note);
+    this.lane.push(note);
     return note;
   }
 
   update(id, task) {
     console.log(id);
-    this.notes.map((note) => {
+    this.lane.map((note) => {
       if(note.id === id) {
         note.task = task;
       }
@@ -55,9 +55,9 @@ class NoteStore extends BaseStore{
   }
 
   delete(id){
-    this.notes.map((note, index) => {
+    this.lane.map((note, index) => {
       if(note.id === id) {
-        this.notes.splice(index, 1);
+        this.lane.splice(index, 1);
       };
     })
   }

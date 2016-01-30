@@ -1,6 +1,5 @@
 import React from 'react';
 import Note from './Note.js';
-import NoteStore from '../stores/NoteStore.js';
 
 export default ({notes, onEdit, onDelete}) => {
   return (

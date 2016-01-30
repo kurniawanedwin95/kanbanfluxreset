@@ -1,10 +1,14 @@
+import uuid from 'node-uuid';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import KanbanConstants from '../constants/KanbanConstants.js';
 
 class NoteActions {
-  create() {
+  create(laneId) {
     AppDispatcher.dispatch({
       action: KanbanConstants.CREATE_NOTE,
+      id: uuid.v4(),
+      task: "New Task",
+      laneId: laneId
     });
   }
 

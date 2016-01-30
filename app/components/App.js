@@ -8,6 +8,10 @@ import LaneStore from '../stores/LaneStore.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      lanes: [],
+      id: null
+    };
   }
 
   componentDidMount() {
@@ -21,15 +25,15 @@ class App extends React.Component {
   }
   //setState works but produces:
   //Warning: setState(...): You passed an undefined or null state object; instead, use forceUpdate().
-  storeChanged = (lanes) => {
-    this.forceUpdate(lanes);
+  storeChanged = () => {
+    this.setState({lanes: LaneStore.lanes})
   };
 
   render () {
-    const lanes = LaneStore.lanes;
+    let lanes = this.state.lanes;
     return (
       <div>
-        <button className="add-lane" onClick={this.addLane.bind(this, null)}>+</button>
+        <button className="add-lane" onClick={this.addLane}>+</button>
         <Lanes
           lanes={lanes}/>
       </div>
