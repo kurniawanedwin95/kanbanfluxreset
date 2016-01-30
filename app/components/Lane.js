@@ -46,7 +46,7 @@ class Lane extends React.Component {
               <Note
                 task={note.task}
                 onEdit={this.editNote.bind(this, note.id)}
-                onDelete={this.deleteNote.bind(this, note.id)}  />
+                onDelete={this.deleteNote.bind(this, laneId, note.id)}  />
             </li>
           );
         }
@@ -78,8 +78,8 @@ class Lane extends React.Component {
     NoteActions.update({id, task});
   }
 
-  deleteNote(id) {
-    NoteActions.delete(id);
+  deleteNote(laneId, noteId) {
+    NoteActions.delete(laneId, noteId);
   }
 
 }

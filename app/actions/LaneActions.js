@@ -31,13 +31,13 @@ class LaneActions {
     });
   }
 
-  detachFromLane(noteId, laneId) {
+  detachFromLane(laneId, noteId) {
     AppDispatcher.dispatch({
       action: KanbanConstants.DETACH_FROM_LANE,
     });
   }
 
-  moveLane(noteId, laneId) {
+  moveLane(laneId, noteId) {
     AppDispatcher.dispatch({
       action: KanbanConstants.MOVE_LANE,
     });

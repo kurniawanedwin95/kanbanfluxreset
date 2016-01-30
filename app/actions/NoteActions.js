@@ -20,10 +20,11 @@ class NoteActions {
     });
   }
 
-  delete(id) {
+  delete(laneId, noteId) {
     AppDispatcher.dispatch({
       action: KanbanConstants.DELETE_NOTE,
-      id: id
+      laneId: laneId,
+      noteId: noteId
     });
   }
 

@@ -2,6 +2,7 @@ import uuid from 'node-uuid';
 import BaseStore from './BaseStore.js';
 import NoteActions from '../actions/NoteActions.js';
 import LaneStore from '../stores/LaneStore.js';
+import AppDispatcher from '../dispatcher/AppDispatcher.js';
 
 let CHANGE_EVENT = 'change';
 
@@ -28,7 +29,8 @@ class NoteStore extends BaseStore{
         break;
       case "DELETE_NOTE":
         console.log(action);
-        this.delete(action.id);
+        AppDispatcher.waitFor([LaneStore.dispatchToken]);
+        this.delete(action.noteId);
         this.emitChange();
         break;
     }

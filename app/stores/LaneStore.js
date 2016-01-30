@@ -23,6 +23,12 @@ class LaneStore extends BaseStore {
         this.attachToLane(action.laneId, action.id);
         this.emitChange();
         break;
+      case "DELETE_NOTE":
+        console.log(action);
+        console.log(" in lanestore");
+        this.detachFromLane(action.laneId, action.noteId);
+        this.emitChange();
+        break;
       case "CREATE_LANE":
         console.log(action);
         this.create(action.id, action.name);
@@ -61,6 +67,21 @@ class LaneStore extends BaseStore {
         }
         else {
           console.warn('Already attached note to lane', lane);
+        }
+      }
+      return lane;
+    });
+  }
+
+  detachFromLane(laneId, noteId) {
+    const lanes = this.lanes.map(lane => {
+      if(lane.id === laneId) {
+        if(lane.notes.indexOf(noteId) || lane.notes.indexOf(noteId) === 0) {
+          lane.notes.splice(lane.notes.indexOf(noteId), 1);
+        }
+        else {
+          console.log(lane.notes.indexOf(noteId));
+          console.warn('Already detached note from lane', lane);
         }
       }
       return lane;
