@@ -39,6 +39,9 @@ class LaneStore extends BaseStore {
         break;
       case "DELETE_LANE":
         console.log(action);
+        console.log(action.id);
+        this.delete(action.id);
+        this.emitChange();
         break;
       case "ATTACH_TO_NEW_LANE":
         console.log(action);
@@ -57,6 +60,16 @@ class LaneStore extends BaseStore {
     this.lanes.push(lane);
     console.log(`laneId: ${lane.id}`);
     return lane;
+  }
+
+  delete(id) {
+    const lanes = this.lanes.map(lane => {
+      if(lane.id === id) {
+        const index = this.lanes.findIndex(lane => lane.id === id);
+        this.lanes.splice(index, 1);
+      }
+      return lane;
+    });
   }
 
   attachToLane(laneId, noteId) {

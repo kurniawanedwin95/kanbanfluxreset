@@ -1,5 +1,6 @@
 import React from 'react';
 import Note from './Note.js';
+import Editable from './Editable.js';
 import NoteActions from '../actions/NoteActions.js';
 import NoteStore from '../stores/NoteStore.js';
 import LaneActions from '../actions/LaneActions.js';
@@ -43,10 +44,17 @@ class Lane extends React.Component {
         if(note.id === noteId) {
           renderedNotes.push(
             <li className="note" key={note.id}>
-              <Note
+              <Editable
+                editing={note.editing}
+                value={note.task}
+                onValueClick={this.onValueClick.bind(this, note.id)}
+                onEdit={this.editNote.bind(this, note.id)}
+                onDelete={this.deleteNote.bind(this, laneId, note.id)} />
+
+              {/*<Note
                 task={note.task}
                 onEdit={this.editNote.bind(this, note.id)}
-                onDelete={this.deleteNote.bind(this, laneId, note.id)}  />
+                onDelete={this.deleteNote.bind(this, laneId, note.id)}  />*/}
             </li>
           );
         }
@@ -57,11 +65,15 @@ class Lane extends React.Component {
     console.log(notes);
     return (
       <div>
-        <div className="lane-header">
+        <div className="lane-header" onClick={this.activateLaneEdit}>
           <div className="lane-add-note">
             <button onClick={this.addNote.bind(this, laneId)}>+</button>
           </div>
-          <div className="lane-name">{this.state.name}</div>
+          <Editable className="lane-name" editing={lane.editing}
+            value={lane.name} onEdit = {this.editName} />
+          <div className="lane-delete">
+            <button onClick={this.deleteLane.bind(this, laneId)}>x</button>
+          </div>
         </div>
         <ul className="lane">
           {renderedNotes}
@@ -80,6 +92,22 @@ class Lane extends React.Component {
 
   deleteNote(laneId, noteId) {
     NoteActions.delete(laneId, noteId);
+  }
+
+  activateLaneEdit(id) {
+
+  }
+
+  editName(id, name) {
+
+  }
+
+  deleteLane(id) {
+    LaneActions.delete(id);
+  }
+
+  onValueClick(id) {
+
   }
 
 }

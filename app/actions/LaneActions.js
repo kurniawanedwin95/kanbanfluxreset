@@ -20,6 +20,7 @@ class LaneActions {
   delete(id) {
     AppDispatcher.dispatch({
       action: KanbanConstants.DELETE_LANE,
+      id: id
     });
   }
 
