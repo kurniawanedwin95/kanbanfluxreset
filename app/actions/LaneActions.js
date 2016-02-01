@@ -11,9 +11,12 @@ class LaneActions {
     });
   }
 
-  update() {
+  update(editing, id, name) {
     AppDispatcher.dispatch({
       action: KanbanConstants.UPDATE_LANE,
+      id: id,
+      name: name,
+      editing: editing
     });
   }
 

@@ -15,9 +15,9 @@ class Editable extends React.Component {
   renderEdit = () => {
     //Deal with blur and input handlers. These map to DOM events.
     return <input type="text"
-    ref = {
-      (e) => e ? e.selectionStart = this.props.value.length : null
-    }
+    //ref = {
+    //  (e) => e ? e.selectionStart = this.props.value.length : null
+    //}
       autoFocus={true}
       defaultValue={this.props.task}
       onBlur={this.finishEdit}
@@ -26,7 +26,6 @@ class Editable extends React.Component {
 
   renderValue = () => {
     const onDelete = this.props.onDelete;
-
     return (
       <div onClick={this.props.onValueClick}>
         <span className="value">{this.props.value}</span>

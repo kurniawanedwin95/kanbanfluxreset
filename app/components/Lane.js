@@ -15,20 +15,27 @@ class Lane extends React.Component {
       lane: [],
       id: props.lane.id,
       name: props.lane.name,
+      editing: props.lane.editing,
       notes: props.lane.notes
     };
   }
 
   componentDidMount() {
-    NoteStore.addChangeListener(this.storeChanged);
+    NoteStore.addChangeListener(this.noteStoreChanged);
+    LaneStore.addChangeListener(this.laneStoreChanged);
   }
 
   componentWillUnmount() {
-    NoteStore.removeChangeListener(this.storeChanged);
+    NoteStore.removeChangeListener(this.noteStoreChanged);
+    LaneStore.removeChangeListener(this.laneStoreChanged);
   }
 
-  storeChanged = () => {
+  noteStoreChanged = () => {
     this.setState({lane: NoteStore.lane});
+  };
+
+  laneStoreChanged = () => {
+    this.setState({name: this.props.lane.name});
   };
 
   render() {
@@ -36,6 +43,8 @@ class Lane extends React.Component {
     //const lanes = LaneStore.lanes;
     const lane = NoteStore.lane;
     const laneId = this.state.id;
+    const laneName = this.state.name;
+    const editState = this.state.editing;
     const notes = this.state.notes;
     const renderedNotes = [];
 
@@ -44,17 +53,17 @@ class Lane extends React.Component {
         if(note.id === noteId) {
           renderedNotes.push(
             <li className="note" key={note.id}>
-              <Editable
+              {/*<Editable
                 editing={note.editing}
                 value={note.task}
                 onValueClick={this.onValueClick.bind(this, note.id)}
                 onEdit={this.editNote.bind(this, note.id)}
-                onDelete={this.deleteNote.bind(this, laneId, note.id)} />
+                onDelete={this.deleteNote.bind(this, laneId, note.id)} />*/}
 
-              {/*<Note
+              <Note
                 task={note.task}
                 onEdit={this.editNote.bind(this, note.id)}
-                onDelete={this.deleteNote.bind(this, laneId, note.id)}  />*/}
+                onDelete={this.deleteNote.bind(this, laneId, note.id)}  />
             </li>
           );
         }
@@ -65,12 +74,14 @@ class Lane extends React.Component {
     console.log(notes);
     return (
       <div>
-        <div className="lane-header" onClick={this.activateLaneEdit}>
+        <div className="lane-header">
           <div className="lane-add-note">
             <button onClick={this.addNote.bind(this, laneId)}>+</button>
           </div>
-          <Editable className="lane-name" editing={lane.editing}
-            value={lane.name} onEdit = {this.editName} />
+
+          <Editable className="lane-name" editing={editState}
+            value={laneName} onClick={this.activateLaneEdit.bind(this, laneId)}
+            onEdit = {this.editName.bind(this, laneId)} />
           <div className="lane-delete">
             <button onClick={this.deleteLane.bind(this, laneId)}>x</button>
           </div>
@@ -94,12 +105,16 @@ class Lane extends React.Component {
     NoteActions.delete(laneId, noteId);
   }
 
-  activateLaneEdit(id) {
-
+  editName(id, name) {
+    this.setState({editing: false});
+    const editing = false;
+    LaneActions.update(editing, id, name);
   }
 
-  editName(id, name) {
-
+  activateLaneEdit(id) {
+    this.setState({editing: true});
+    const editing = true;
+    LaneActions.update(editing, id);
   }
 
   deleteLane(id) {
