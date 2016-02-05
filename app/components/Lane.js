@@ -16,6 +16,8 @@ class Lane extends React.Component {
       id: props.lane.id,
       name: props.lane.name,
       editing: props.lane.editing,
+      sourceId: props.lane.sourceId,
+      targetId: props.lane.targetId,
       notes: props.lane.notes
     };
   }
@@ -44,6 +46,8 @@ class Lane extends React.Component {
     const lane = NoteStore.lane;
     const laneId = this.state.id;
     const laneName = this.state.name;
+    const sourceId = this.state.sourceId;
+    const targetId = this.state.targetId;
     const editState = this.state.editing;
     const notes = this.state.notes;
     const renderedNotes = [];
@@ -54,16 +58,17 @@ class Lane extends React.Component {
           renderedNotes.push(
             <li className="note" key={note.id}>
               {/*<Editable
-                editing={note.editing}
+                editing={editState}
                 value={note.task}
                 onValueClick={this.onValueClick.bind(this, note.id)}
                 onEdit={this.editNote.bind(this, note.id)}
                 onDelete={this.deleteNote.bind(this, laneId, note.id)} />*/}
-
               <Note
+                id={note.id}
                 task={note.task}
                 onEdit={this.editNote.bind(this, note.id)}
-                onDelete={this.deleteNote.bind(this, laneId, note.id)}  />
+                onDelete={this.deleteNote.bind(this, laneId, note.id)}
+                onMove={this.moveNote.bind(this, sourceId, targetId)} />
             </li>
           );
         }
@@ -103,6 +108,10 @@ class Lane extends React.Component {
 
   deleteNote(laneId, noteId) {
     NoteActions.delete(laneId, noteId);
+  }
+
+  moveNote(sourceId, targetId) {
+    LaneActions.moveNote(sourceId, targetId);
   }
 
   editName(id, name) {

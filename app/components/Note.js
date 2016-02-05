@@ -1,10 +1,51 @@
 import React from 'react';
 
+import {DragSource, DropTarget} from 'react-dnd';
+import ItemTypes from '../constants/itemTypes';
+
+//obviously props.id wouldn't work...
+
+const noteSource = {
+  beginDrag(props) {
+    return{
+      id: props.id
+    };
+  },
+  isDragging(props, monitor) {
+    console.log(props.id);
+    return props.id === monitor.getItem().id;
+  }
+};
+
+const noteTarget = {
+  hover(targetProps, monitor) {
+    const targetId = targetProps.id;
+    const sourceProps = monitor.getItem();
+    const sourceId = sourceProps.id;
+    console.log(`source: ${sourceId}, target: ${targetId}`);
+    //WE NEED TO GET SOURCEID AND TARGETID
+    if(sourceId !== targetId) {
+      targetProps.onMove({sourceId, targetId});
+    }
+  }
+};
+
+@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
+}))
+
+@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+  connectDropTarget: connect.dropTarget()
+}))
+//do something with render
 class Note extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
       editing: false,
+      sourceId: null,
+      targetId: null
     };
   }
 
@@ -17,6 +58,8 @@ class Note extends React.Component {
 
   renderEdit = () => {
     //Deal with blur and input handlers. These map to DOM events.
+    console.log(this.props.id);
+
     return <input type="text"
       autoFocus={true}
       placeholder={this.props.task}
@@ -25,15 +68,19 @@ class Note extends React.Component {
   };
 
   renderNote = () => {
+    console.log(noteTarget);
     //If the user clicks a normal note, trigger editing logic.
     const onDelete = this.props.onDelete;
+    const {connectDragSource, connectDropTarget, isDragging, onMove, id, ...props} = this.props;
 
-    return (
-      <div onClick={this.edit}>
+
+    return connectDragSource(connectDropTarget(
+      <div style={{opacity: isDragging ? 0 : 1}}onClick={this.edit}>
         <span className="task">{this.props.task}</span>
+      {/*<div {...props}>{props.children}</div>*/}
         {onDelete ? this.renderDelete() : null }
       </div>
-    );
+    ));
   };
 
   renderDelete = () => {

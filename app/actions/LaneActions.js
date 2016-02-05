@@ -41,9 +41,11 @@ class LaneActions {
     });
   }
 
-  moveLane(laneId, noteId) {
+  moveNote(sourceId, targetId) {
     AppDispatcher.dispatch({
-      action: KanbanConstants.MOVE_LANE,
+      action: KanbanConstants.MOVE_NOTE,
+      sourceId: sourceId,
+      targetId: targetId
     });
   }
 

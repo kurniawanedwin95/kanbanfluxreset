@@ -3,8 +3,10 @@ import React from 'react';
 import Lanes from './Lanes.js';
 import LaneActions from '../actions/LaneActions.js';
 import LaneStore from '../stores/LaneStore.js';
-//import NoteStore from '../stores/NoteStore.js';
+import {DragDropContext} from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
+@DragDropContext(HTML5Backend)
 class App extends React.Component {
   constructor(props) {
     super(props);

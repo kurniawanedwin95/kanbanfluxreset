@@ -3,6 +3,7 @@ import BaseStore from './BaseStore.js';
 import LaneActions from '../actions/LaneActions.js';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import NoteStore from './NoteStore.js';
+import update from 'react-addons-update';
 
 let CHANGE_EVENT = 'change';
 
@@ -49,6 +50,11 @@ class LaneStore extends BaseStore {
         this.attachToNewLane(action.laneId, noteId);
         this.emitChange();
         break;
+      case "MOVE_NOTE":
+        console.log(action);
+        this.move(action.sourceId, action.targetId);
+        this.emitChange();
+        break;
     }
   }
 
@@ -77,9 +83,7 @@ class LaneStore extends BaseStore {
     const lanes = this.lanes.map(lane => {
       const laneName = lane.name;
       if(lane.id === id) {
-        console.log(name);
         lane.name = name;
-        console.log(lane.name);
       }
       return lane;
     });
@@ -116,6 +120,67 @@ class LaneStore extends BaseStore {
       }
       return lane;
     });
+  }
+
+  move(sourceId, targetId) {
+    const lanes = this.lanes;
+    console.log(targetId);
+    const sourceLane = lanes.filter(lane => {
+      return lane.notes.indexOf(sourceId) >= 0;
+    })[0];
+    const targetLane = lanes.filter(lane => {
+      return lane.notes.indexOf(targetId) >= 0;
+    })[0];
+
+    const lane = NoteStore.lane;
+    const notes = lane.notes;
+    this.lanes.forEach(lane => {
+      Object.keys(lane).forEach(notes => {
+        lane.notes.forEach(note => {
+          console.log(note);
+          console.log(targetId);
+          if(note === targetId) {
+            lane.notes.splice(lane.notes.indexOf(targetId), 0, sourceId);
+          }
+        })
+      })
+    })
+
+    /*for(let lane in this.lanes){
+      console.log(lane);
+      for(let notes in lane){
+        if(lane.hasOwnProperty(notes)){
+          console.log(lane.notes[notes]);
+          notes.forEach(targetId => {
+            if(note.id === targetId) {
+              lane.notes.splice(lane.notes.indexOf(targetId), 0, sourceId);
+            }
+          })
+        }
+      }
+    }*/
+
+    /*const sourceNoteIndex = sourceLane.lane.indexOf(sourceId);
+    const targetNoteIndex = sourceLane.lane.indexOf(targetId);
+
+    if(sourceLane === targetLane) {
+      //move at once to avoid complications
+      sourceLane.notes = update(sourceLane.notes, {
+        $splice: [
+          [sourceNoteIndex, 1],
+          [targetNoteIndex, 0, sourceId]
+        ]
+      });
+    }
+    else {
+      //get rid of the sourceLane
+      sourceLane.notes.splice(sourceNoteIndex, 1);
+      //and move it to target
+      targetLane.notes.splice(targetNoteIndex, 0, sourceId);
+    }
+    */
+
+    return lanes;
   }
 
 }

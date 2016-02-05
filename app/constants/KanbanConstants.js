@@ -11,6 +11,6 @@ export default keyMirror ({
   ATTACH_TO_LANE: null,
   ATTACH_TO_NEW_LANE: null,
   DETACH_FROM_LANE: null,
-  MOVE_LANE: null
+  MOVE_NOTE: null
 
 });
